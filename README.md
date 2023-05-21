@@ -5,7 +5,7 @@
 ### Random resources
 
 - Excellent answer [here](https://www.quora.com/What-is-symbolic-programming/answer/Vladislav-Zorov) on what a 'symbolic programming' language is, and, inadvertantly, a great example of lisp macros. 
-- List is [lex's](https://www.youtube.com/watch?v=cMMiaCtOzV0) favourite language
+- Lisp is [lex's](https://www.youtube.com/watch?v=cMMiaCtOzV0) favourite language
 - This video recommends starting with [scheme](https://www.youtube.com/watch?v=GWdf1flcLoM&t=4m50s) because it's so small it can be learned in ~ 1 hour. 
   - It also says some learn scheme by simply reading the [specification](https://standards.scheme.org/).
     - According to [here](https://stackoverflow.com/questions/6523396/scheme-core-language-specification/6523520#comment7680042_6523520) scheme 5 is famously small (50 pages), scheme 6 is a much larger language. (I presume scheme 7 is probably larger still). 
@@ -20,10 +20,11 @@
 
 - Run common lisp in the terminal with `clisp`. 
   - Some things to show it works `(+ 2 2)` (addition), `(* 9 7)` (multiplication). 
+  - Exit interpreter with `(quit)`
 
 
-
-
+- Run a lisp propgram
+  - Create mylisp.lisp with this in it `(print "hello")`, then run it with `clisp mylisp.lisp`
 
 
 
