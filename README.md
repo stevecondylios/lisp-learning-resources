@@ -9,7 +9,7 @@
 - This video recommends starting with [scheme](https://www.youtube.com/watch?v=GWdf1flcLoM&t=4m50s) because it's so small it can be learned in ~ 1 hour. 
   - It also says some learn scheme by simply reading the [specification](https://standards.scheme.org/).
     - According to [here](https://stackoverflow.com/questions/6523396/scheme-core-language-specification/6523520#comment7680042_6523520) scheme 5 is famously small (50 pages), scheme 6 is a much larger language. (I presume scheme 7 is probably larger still). 
-
+- 5 minute tutorial on how to run webserver (using hunchentoot), how to render html and pass a URL parameter ([here](https://www.youtube.com/watch?v=A4PzSsOD-CQ). 
 
 
 ### Installing and doing the basics in common lisp
@@ -25,7 +25,6 @@
 
 - Run a lisp propgram
   - Create mylisp.lisp with this in it `(print "hello")`, then run it with `clisp mylisp.lisp`
-
 
 
 
