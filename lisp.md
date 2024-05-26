@@ -18,7 +18,9 @@ From [here](https://news.ycombinator.com/threads?id=nomilk):
 > Development in lisp proceeds 1000-50000 times faster than modern programming languages
 
 
+- John Carmack ([here](https://www.youtube.com/watch?v=RfWGJS7rckk&t=4m27s)) is cautious because lisp tends to be used as a language in which to write languages/dsl's, which detracts from the ability to bring new devs on to a lisp project:
 
+> that's the downside of lisp, but people say how maluable it is, the idea of that for one of these long term projects kinda horrifies me.
 
 RESOURCES:
 
@@ -38,7 +40,11 @@ RANDOM NOTES:
 ### Noodling from various sources
 
 
-Nooding from fireship video 
+From fireship video
+
+(quick note: when using emacs from an .md file, the shortcuts will behave slightly differently. To send a line of lisp to the REPL via sly, you can still use C-M-x, or C-c C-c, but you must first switch to lisp-mode, by pressing M-x, the lisp-mode)
+  - Also note: M-x (M: 'meta key' aka alt) is 'a gateway to all of emacs extensive functionality'
+
 
 
 ```lisp
