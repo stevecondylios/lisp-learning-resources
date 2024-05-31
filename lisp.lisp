@@ -1,6 +1,7 @@
 
 ;; SECTION 1: Noodling & basics
 
+;; START mynewlispfile.lisp
 
 (print "hi")
 
@@ -268,3 +269,26 @@
 ;;
 (eql NIL NIL)
 ;; T
+
+
+
+'()
+
+
+;; define a NIL object
+(defparameter obj nil)
+
+;; check that it is indeed nil
+(null obj)
+;; T
+
+
+;; define a function with an optional parameter
+
+(defun mynums (a b &optional c d)
+  (format t "nums: ~a!~%" (list a b c d)))
+
+(mynums 1 2 3 4)
+
+;; automatically gives the optional argument a value of NIL
+(mynums 1 2 3)
