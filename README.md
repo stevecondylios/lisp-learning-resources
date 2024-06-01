@@ -6,6 +6,8 @@ Note: lisp code examples in this file and in [lisp.lisp](lisp.lisp) (since I can
 
 ### Random resources
 
+- Paul Graham's *ANSI Common Lisp** [pdf](https://7chan.org/pr/src/ANSI_Common_Lisp_-_Paul_Graham.pdf), [first chapter](https://sep.turbifycdn.com/ty/cdn/paulgraham/acl1.txt?t=1688221954&), [second chapter](https://sep.turbifycdn.com/ty/cdn/paulgraham/acl2.txt)
+
 - Excellent answer [here](https://www.quora.com/What-is-symbolic-programming/answer/Vladislav-Zorov) on what a 'symbolic programming' language is, and, inadvertantly, a great example of lisp macros. 
 - Lisp is [lex's](https://www.youtube.com/watch?v=cMMiaCtOzV0) favourite language
 - This video recommends starting with [scheme](https://www.youtube.com/watch?v=GWdf1flcLoM&t=4m50s) because it's so small it can be learned in ~ 1 hour. 
@@ -13,6 +15,16 @@ Note: lisp code examples in this file and in [lisp.lisp](lisp.lisp) (since I can
     - According to [here](https://stackoverflow.com/questions/6523396/scheme-core-language-specification/6523520#comment7680042_6523520) scheme 5 is famously small (50 pages), scheme 6 is a much larger language. (I presume scheme 7 is probably larger still). 
 - 5 minute tutorial on how to run webserver (using hunchentoot), how to render html and pass a URL parameter ([here](https://www.youtube.com/watch?v=A4PzSsOD-CQ). 
 
+
+- To **Setup** 'clisp' (note many sources seem to recommend sbcl over clisp, so I use `sbcl --script file.lisp` now) Install clisp, start the interpreter with `clisp`, or run a `.lisp` file with `clisp myfile.lisp`
+  - Two great youtube videos on how to install/setup (steel bank) common lisp + emacs + emacs-plus + doom emacs (they can be found toward top of search results)
+- Fireship video [here](https://www.youtube.com/watch?v=INUHCQST7CU)
+- Brilliant, long single-pager here: https://news.ycombinator.com/item?id=40435771
+
+
+### Great tutorials and projects
+
+- Drum n Bass in Common Lisp: [video](https://www.youtube.com/watch?v=jS84KmkkNkU) and [repo](https://github.com/byulparan/livecoding) 
 
 ### Installing and doing the basics in common lisp
 
@@ -71,12 +83,6 @@ From [here](https://news.ycombinator.com/threads?id=nomilk):
 
 
 RESOURCES:
-
-- **Setup** Install clisp, start the interpreter with `clisp`, or run a `.lisp` file with `clisp myfile.lisp`
-  - Two great youtube videos on how to install/setup (steel bank) common lisp + emacs + emacs-plus + doom emacs (they can be found toward top of search results)
-  - UPDATE many sources seem to recommend sbcl over clisp, so I use `sbcl --script file.lisp` now
-- Fireship video [here](https://www.youtube.com/watch?v=INUHCQST7CU)
-- Brilliant, long single-pager here: https://news.ycombinator.com/item?id=40435771
 
 
 RANDOM NOTES:
