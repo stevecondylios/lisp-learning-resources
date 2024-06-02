@@ -1,13 +1,41 @@
 
 ;; SECTION 1: Noodling & basics
 
-;; START mynewlispfile.lisp
-
 (print "hi")
 
 (print (+ 2 (* 3 3)))
 
 (print "hehe")
+
+
+
+;;; sc note this:
+
+;;; CL-USER> (defvar aaa 5)
+;;; CL-USER> (defvar aaa 7)
+;;; CL-USER> (print aaa)
+;;; 5
+;;;
+;;; CL-USER> (setf aaa 9)
+;;; CL-USER> (print aaa)
+;;; 9
+
+;;; in other words, defvar is like orequals, except ||= will define if the object is
+;;; nil, whereas I don't think defvar does that. Basically defvar will set the
+;;; variable only if it isn't already defined e.g. useful for global variables
+;;; so tl;dr someone like me who rarely uses globals probably should just stick
+;;; to using defparameter rather than defvar
+
+
+(defparameter aaa 5)
+(print aaa)
+;;; 5
+
+(defparameter aaa 7)
+(print aaa)
+;;; 7
+;;; sc: yup, for behaviour more like what I'm used to, use defparamater rather than defvar
+
 
 
 
@@ -17,6 +45,39 @@
 (print 5)
 
 (print x)
+
+
+;;; quick summary of 5 ways to define variables in common lisp
+
+
+;;; Defines a global variable and initializes it with a value. The variable can be changed later.
+(defparameter *var* 10)
+
+
+;;; Similar to defparameter, but if the variable already exists, it does not reinitialize it.
+(defvar *var* 10)
+
+
+;;;setq sets the value of a variable. Can be used for both local and global variables.
+(setq var 20)
+
+;;; let defines local variables scoped within a block.
+
+(let ((x 10)
+      (y 20))
+  (+ x y))
+
+
+;;; let* similar to let, but allows for variables defined in the form to depend on those defined earlier
+(let* ((x 10)
+       (y (+ x 10)))
+  (+ x y))
+
+
+
+
+
+
 
 
 ;; from derek banas
@@ -292,3 +353,42 @@
 
 ;; automatically gives the optional argument a value of NIL
 (mynums 1 2 3)
+
+
+
+;;; check if something is a list
+
+(defvar thing 222)
+(defvar thing2 (list 1 2 3))
+(listp thing)
+;;; NIL (aka false)
+(listp thing2)
+;;; T
+
+
+;;; Loops that print
+
+(loop for i from 1 to 5
+      do (print i))
+
+(loop for i from 1 to 100
+     do (format t "iteration number: ~a~%" i))
+
+
+;;; make a list using a loop
+(loop for i from 1 to 5
+      collect i)
+
+;;; assign that list
+(defvar a (loop for i from 1 to 5
+      collect i))
+
+
+(print a)
+;;; (1 2 3 4 5)
+
+
+;;; iterating over list items
+
+(dolist (item '(a b c d))
+  (print item))
