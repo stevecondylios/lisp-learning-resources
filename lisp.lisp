@@ -9,6 +9,9 @@
 
 
 
+
+;;; DEFINING VARIBLES
+
 ;;; sc note this:
 
 ;;; CL-USER> (defvar aaa 5)
@@ -76,7 +79,31 @@
 
 
 
+;;; some great examples from a stack overflow answer:
+;;; https://stackoverflow.com/a/1475814/5783745
+;;;
+(set ls '(1 2 3 4)) => Error - ls has no value
 
+(set 'ls '(1 2 3 4)) => OK
+
+(setq ls '(1 2 3 4)) => OK - make ls to (quote ls) and then have the usual set
+
+(setf ls '(1 2 3 4)) => OK - same as setq so far BUT
+
+(setf (car ls) 10) => Makes ls '(10 2 3 4) - not duplicated by setq/set
+
+
+
+
+
+
+
+
+
+
+
+
+;;; DEFINING FUNCTIONS
 
 
 
@@ -392,3 +419,114 @@
 
 (dolist (item '(a b c d))
   (print item))
+
+
+
+
+
+
+
+
+
+
+
+;;; Macros!
+;;; From: https://www.quora.com/What-is-symbolic-programming/answer/Vladislav-Zorov
+
+(defmacro defun-logged (name arglist &body body)
+  `(defun ,name ,arglist
+     (format t "fn = ~a~%" ',name)
+     (dolist (arg (mapcar #'cons ',arglist (list ,@arglist)))
+       (format t "~a = ~a~%" (car arg) (cdr arg))) ,@body))
+
+
+(defun-logged test (x y) (+ x y))
+
+(test 2 3)
+;;; 5
+
+
+;;; Expand the macro
+(macroexpand-1 '(defun-logged test (x y) (+ x y)))
+
+;;; (DEFUN TEST (X Y)
+;;;   (FORMAT T "fn = ~a~%" 'TEST)
+;;;   (DOLIST (ARG (MAPCAR #'CONS '(X Y) (LIST X Y)))
+;;;     (FORMAT T "~a = ~a~%" (CAR ARG) (CDR ARG)))
+;;;   (+ X Y))
+;;; T
+
+
+
+
+
+
+
+
+;;; another macro example: https://lisp-lang.org/learn/macros
+
+
+
+
+(defmacro while (condition &body body)
+  `(loop while ,condition do (progn ,@body)))
+
+
+(macroexpand-1 '(while (> a -2)
+       (progn
+         (format t "~%a is: ~a~%" a)
+         (setq a (- a 1)))))
+
+;;; Not totally sure I got this right, but here's what it expands to
+;;; (LOOP WHILE (> A -2)
+;;;       DO (PROGN (PROGN (FORMAT T "~%a is: ~a~%" A) (SETQ A (- A 1)))))
+;;; T
+
+;;; Reminder of expansion of first macro above just for comparison
+(defmacro defun-logged (name arglist &body body)
+  `(defun ,name ,arglist
+     (format t "fn = ~a~%" ',name)
+     (dolist (arg (mapcar #'cons ',arglist (list ,@arglist)))
+       (format t "~a = ~a~%" (car arg) (cdr arg))) ,@body))
+
+
+(macroexpand-1 '(defun-logged test (x y) (+ x y)))
+
+
+
+
+
+;;; remidner of how equality works hehe
+
+
+(defparameter a 2)
+(print a)
+(= a 2)
+
+;;; my attempt to use it
+(format t "~%~%~%~%--------------")
+(while (> a -2)
+       (progn
+         (format t "~%a is: ~a~%" a)
+         (setq a (- a 1))))
+;;; if this ^^ does nothing, check that it hasn't already run. If it has, then a will
+;;; already be -2, hence it won't do anything
+;;; Also check that the sly repl hasn't done that thang where it doesn't move down
+;;; with code evaluation
+
+
+;;; Anatomy of a macro:
+;;;
+;;; Backquote: This is a special quoting mechanism used in Lisp macros.
+;;; It allows parts of the quoted list to be evaluated and interpolated into the list,
+;;; which is crucial for constructing new code dynamically.
+;;;
+;;; Comma: The comma is used within a backquoted expression to indicate that
+;;; what follows is an expression that should be evaluated and the result spliced
+;;; into the code during macro expansion.
+;;;
+;;; Splice (,@): The ,@ operator is used before an expression that results in a list,
+;;; and it means that the list should be "spliced" into the surrounding code.
+;;; That is, instead of inserting the list itself,
+;;; the elements of the list are inserted.
+
