@@ -1,5 +1,69 @@
 
-;; sc: this was taken from the link to code for derek's video: https://www.newthinktank.com/2015/07/learn-lisp-one-video/
+;;; note: this doc grew of a life of its own. It's based on derek's tutorial but now
+;;; has a lot of my notes inbued
+
+
+;;; sc random quick notes
+;; remember that in lisp, Nil is false, and anything other than NIL and F is true
+;; e.g.
+(eql 2 2) ; T
+(eql 2 3) ; Nil (false) <---- gives nil which means false
+
+
+;;; sc my notes on testing for equality in lisp
+
+(documentation 'eq 'function)
+;;; "Return T if OBJ1 and OBJ2 are the same object, otherwise NIL."
+
+(documentation 'eql 'function)
+;;; "Return T if OBJ1 and OBJ2 represent the same object, otherwise NIL."
+
+(documentation 'equal 'function)
+;;; "Return T if X and Y are EQL or if they are structured components whose
+;;; elements are EQUAL. Strings and bit-vectors are EQUAL if they are the same
+;;; length and have identical components. Other arrays mus...[sly-elided string of length 220]"
+
+(documentation 'equalp 'function)
+;;; "Just like EQUAL, but more liberal in several respects.
+;;;  Numbers may be of different types, as long as the values are identical
+;;; after coercion. Characters may differ in alphabetic case. Vectors and
+;;; ..[sly-elided string of length 370]"
+
+
+
+;;; sc: short but thorough examples from chatgpt
+(eq 'a 'a) ; True
+(eq 'a 'b) ; Nil aka False
+(eq 3 3)   ; Implementation-dependent (often False for numbers) sc: seems to be True in common lisp
+
+(eql 'a 'a) ; True
+(eql 3 3)   ; True
+(eql 3.0 3) ; Nil aka false, different types (float vs integer)
+
+(equal "abc" "abc") ; Tru(eq 'a 'a) ; True
+(equal '(1 2) '(1 2)) ; True
+(equal '(1 2) '(1 3)) ; (Nil) False
+
+;;; sc: most common one, ignores differences in case for string/characters and treats numeric types as equal if values are equal
+(equalp "abc" "ABC") ; True
+(equalp 3 3.0)       ; True
+(equalp '(a (b c)) '(A (B C))) ; True
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;;; sc: most of the following vcode was taken from the link
+;;; to code for derek's video: https://www.newthinktank.com/2015/07/learn-lisp-one-video/
 
 ;;;; Lisp stands for List Processing, not
 ;;;; Lots of Irritating Superflous Parentheses
@@ -10,13 +74,17 @@
 
 ;;; sc: I researched why, and some editors/linters might display ; ;; and ;;; a bit differently,
 ;;; but by and large the REPL and compiler won't (so they're basically interchangable)
+
 ;;; Comment
-;; Comment that is indented with code
+;; Comment indented with code
 ; Comment after a line of code
 
 #||
 Multiline Comment
 ||#
+;;; sc TODO - emacs wrecks havoc when trying to add new lines in a multiline comment
+;;; (doom emacs keeps automatically adding more multiline comments)
+
 
 ;;; ~% prints a newline with format
 (format t "Hello world~%")
@@ -34,9 +102,7 @@ Multiline Comment
 ;;; Create a variable which receives the value passed by read
 ;;; A variable name or symbol is made of letters, numbers, and + - _ * = < > ? !
 ;;; and are lowercase because Lisp isn't case sensitive
-;;; You can't use white space in names because list items are separated
-;;; with white space
-;;; Asterisks surround global variable names
+;;; Convention is to use asterisks to surround global variable names
 (defvar *name* (read))
 
 ;;; Create a function and say hello to value passed
@@ -70,7 +136,32 @@ sc note that this:
 
 will evaluate to
 (+ 5 4)
+
+Also note that in any linked list ("linked list" == "list"; same thing),
+the first item is called the 'car' and all the other items are called the 'cdr'
+
+E.g. in (+ 2 5), + is the car, and 2 and 5 are the cdr
+
 ||#
+
+;;; a bit more on car
+
+;;; here's a list
+'(cat dog)
+;;; we can get it's car (first value)
+(car '(cat dog))
+;;; -> CAT
+
+;;; or its cdr
+(cdr '(cat dog mouse))
+;;; => (DOG MOUSE)
+
+;;; TODO note: I don't quite grok the difference in symbol vs string in lists yet and how they can be used
+
+
+
+
+
 
 
 ;;; Change the value of a variable with setf
@@ -144,6 +235,18 @@ will evaluate to
 (format t "(equalp 1.0 1) = ~d ~%" (equalp 1.0 1))
 (format t "(equalp \"Derek\" \"derek\") = ~d ~%" (equalp "Derek" "derek"))
 
+
+;;; sc me testing this ^^ out (update: did a bunch of tests at the top of this doc)
+
+(equal 2 2.0)
+(eq 2 2.0)
+(equalp "mystring" "mystring")
+
+
+
+
+
+
 ;;; ---------- CONDITIONALS ----------
 
 (defparameter *age* 18) ; Create variable age
@@ -152,9 +255,15 @@ will evaluate to
 
 ;;; Check if age is greater than or equal to 18
 
+
+;;; sc figuring out when I should ctrl+c ctrl+c Vs when to C-M-x.
+;;; In this case, use C-M-x. Not totally sure when to use which tbh.
 (if (= *age* 18)
 (format t "You can vote~%")
 (format t "You can't vote~%"))
+
+
+
 
 ;;; How to check for not equal
 
@@ -234,7 +343,8 @@ will evaluate to
 	do(print x))
 
 ;;; Loop until the when condition calls return
-(setq x 1)
+(setq x 1) ; sc note using setq will throw a warning if x isn't already defined - if x isn't already defined,
+		   ; use (defparamter x 3) or whatever
 (loop
 	(format t "~d ~%" x)
 	(setq x (+ x 1))
@@ -336,6 +446,11 @@ will evaluate to
 	'((Superman (Clark Kent))
 	(Flash (Barry Allen))
 	(Batman (Bruce Wayne))))
+
+;;; sc note:
+(print *heroes*)
+;;; ((SUPERMAN (CLARK KENT)) (FLASH (BARRY ALLEN)) (BATMAN (BRUCE WAYNE)))
+;;; sc: looks like a hash or dictionaries. See: https://docs.python.org/3/tutorial/datastructures.html#dictionaries
 
 ;;; Get the key value with assoc
 (format t "Superman Data ~a ~%" (assoc 'superman *heroes*))

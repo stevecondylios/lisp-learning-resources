@@ -76,10 +76,12 @@ From [here](https://news.ycombinator.com/threads?id=nomilk):
 
 - Alan Kay is said to have said ([source](https://www.youtube.com/watch?v=OyfBQmvr2Hc&t=7m30s)) 
 
-*When he first saw the lisp interpreter written in lisp at the bottom of page 13 of the lisp 1.5 manual it changed his life and he realised these are Maxwell's equations of software.*
+*When he first saw the lisp interpreter written in lisp at the bottom of page 13 of the lisp 1.5 manual it changed his life and he realised these are Maxwell's<sup>^</sup> equations of software.*
 
 ([page 13 of Lisp 1.5 manual](https://www.softwarepreservation.org/projects/LISP/book/LISP%201.5%20Programmers%20Manual.pdf?page=21))
 
+
+<sup>^</sup> [Feynman](https://www.youtube.com/watch?v=P1ww1IXRfTA&t=31m45s) on the Maxwell equations: "the full equations for everything were worked out by Maxell in 1873.. the most remarkable thing in history".
 
 
 RESOURCES:

@@ -217,16 +217,42 @@
 
 
 ;; how to look up documentation for a lisp function
+;;; my tldr:
+;;; use (describe) since it has one less argument than (documentation)
+;;; e.g.
+(describe 'defun)
+(describe '*print-base*)
+(describe '*print-case*)
+(setq *print-case* :capitalize)
+(print *print-case*) ; this prints the new value (:Capitalize)
+(describe '*print-case*) ; but this says no value. Maybe a lisp quirk. Investigate later.
 
 (documentation 'format 'function)
 
 ;; OR
 
 (describe 'format)
-
+;;; Note that this ^^^ doesn't seem to work
 ;; apparently this site is really good: https://www.lispworks.com/documentation/lw50/CLHS/Front/Contents.htm
 
+;;; So you probably have to tell the (documentation) function the kind
+;;; thing that it is. E.g.
 
+;;; returns documentation for the + function (although not much documentation)
+(documentation '+ 'function)
+(documentation 'car 'function)
+
+;;; returns documentaiton for a variable
+(documentation '*print-base* 'variable)
+
+(describe '+)
+
+;;; documenting your own code
+(defun my-function (x)
+  "Calculate the square of X."
+  (* x x))
+
+(documentation 'my-function 'function)
 
 
 ;; great tutorial: https://lisp-lang.org/learn/functions
@@ -473,13 +499,12 @@
 
 
 (macroexpand-1 '(while (> a -2)
-       (progn
          (format t "~%a is: ~a~%" a)
-         (setq a (- a 1)))))
+         (setq a (- a 1))))
 
 ;;; Not totally sure I got this right, but here's what it expands to
 ;;; (LOOP WHILE (> A -2)
-;;;       DO (PROGN (PROGN (FORMAT T "~%a is: ~a~%" A) (SETQ A (- A 1)))))
+;;;      DO (PROGN (FORMAT T "~%a is: ~a~%" A) (SETQ A (- A 1))))
 ;;; T
 
 ;;; Reminder of expansion of first macro above just for comparison
@@ -496,7 +521,7 @@
 
 
 
-;;; remidner of how equality works hehe
+;;; reminder of how equality works
 
 
 (defparameter a 2)
@@ -530,3 +555,11 @@
 ;;; That is, instead of inserting the list itself,
 ;;; the elements of the list are inserted.
 
+
+;;; Note the difference between '(a b) and (list a b) is the former uses a quote before
+;;; the parentheses, which inhibis the evaluation of the contents inside the parantheses
+;;; e.g. it directly returns (a b) as a literal list, with symbols a and b unchanged.
+;;; Whereas (list a b) is a function with a and b as arguments, so it will be evaluated
+;;; but only after a and b are evaluated as variables adn their values used in the (list)
+;;; function call to create a new list.
+;;;
