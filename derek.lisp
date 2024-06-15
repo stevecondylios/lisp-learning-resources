@@ -469,6 +469,32 @@ E.g. in (+ 2 5), + is the car, and 2 and 5 are the cdr
 ;;; Get weight
 (format t "Batman is ~a ~%" (caddr (assoc 'Batman *hero-size*)))
 
+;;; sc: i didn't grok cdr cadr caddr, so here's some explanation:
+
+(setq mylist '(a b c d e))
+(car mylist)
+(cdr mylist)
+
+;;; To access deeper into the list with a single function call, Lisp provides "composite" functions
+;;; like cadr and caddr etc. These are shorthand for multiple applications of car and cdr. Each letter after the c
+;;; and before the r represent an operation: a for car, and d for cdr.
+
+;;; then why doesn't this work?
+(caar mylist)
+;;; read the error: "because object A is not of type list"
+
+(car mylist) ; first element
+
+(cadr mylist) ; equivalent to (car (cdr x))
+(car (cdr mylist))
+
+(caddr mylist) ; equivalent to (car (cdr (crd x)))
+
+
+
+
+
+
 ;;; ---------- FUNCTIONS ----------
 
 ;;; Create a function that says hello
