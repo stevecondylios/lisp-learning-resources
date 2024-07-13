@@ -9,6 +9,9 @@
 (eql 2 2) ; T
 (eql 2 3) ; Nil (false) <---- gives nil which means false
 
+(eql T T)
+(eql Nil Nil)
+(eql T Nil)
 
 ;;; sc my notes on testing for equality in lisp
 
@@ -52,12 +55,12 @@
 
 
 
+;;; Defining things
+(equal '(1 2) (list 1 2))
+;; T
 
-
-
-
-
-
+;; the ' is shorthand for (list)
+;; just like #' is shorthand for (function)
 
 
 
@@ -84,6 +87,8 @@ Multiline Comment
 ||#
 ;;; sc TODO - emacs wrecks havoc when trying to add new lines in a multiline comment
 ;;; (doom emacs keeps automatically adding more multiline comments)
+;;; update: select area, press M-x (alt x), type comment-region
+
 
 
 ;;; ~% prints a newline with format
@@ -516,6 +521,9 @@ E.g. in (+ 2 5), + is the car, and 2 and 5 are the cdr
 )
 
 (print-list 1 2 3)
+;;; List = (1 2 3 NIL)
+(print-list 1 3)
+;;; List = (1 3 NIL NIL)
 
 ;;; Receive multiple values with &rest
 (defvar *total* 0)
@@ -528,13 +536,42 @@ E.g. in (+ 2 5), + is the car, and 2 and 5 are the cdr
 )
 
 (sum 1 2 3 4 5)
+(sum 10 20 30)
+;;; note this is a bit dangerous using a global variable
+;;; since it *keeps* summing the total cumulatively the more the function is run!
+
+
+(defun sum2 (&rest nums)
+  (defparameter local_total 0)
+  (dolist (num nums)
+	(setf local_total (+ local_total num))
+	)
+  (format t "Sum: ~a ~%" local_total)
+  )
+
+(sum2 1 2 3 4 5)
+;;; sc: in this ^^ case, the variable the total is stored
+;;; in is defined within the function, hence running the function
+;;; multiple times doesn't cause it to accumulate
+
 
 ;;; Keyword parameters are used to pass values to specific variables
-(defun print-list(&optional &key x y z)
+;;; sc: incidentally, this is a good example of applying multiple attributes/keywords to an argument in a function
+(defun print-list (&optional &key x y z)
 	(format t "List: ~a ~%" (list x y z))
 )
 
 (print-list :x 1 :y 2)
+
+
+;;; sc defining my own function with keyword arguments
+
+
+(defun mypets (&key pet name)
+  (format t "My pet ~a is called ~a~%" pet name))
+
+(mypets :pet "dog" :name "maxy")
+
 
 ;;; Functions by default return the value of the last expression
 ;;; You can also return a specific value with return-from followed by the
@@ -555,11 +592,54 @@ E.g. in (+ 2 5), + is the car, and 2 and 5 are the cdr
 	`(,(caar size) is ,(cadar size) and ,(cddar size))))
 
 (defparameter *hero-size*
-	'((Superman (6 ft 3 in) (230 lbs))
+	'((Superman (6 ft 3 in) (230 lbs)) ; sc reminder ' is shorthand for creating a list
 	(Flash (6 ft 0 in) (190 lbs))
 	(Batman (6 ft 2 in) (210 lbs))))
 
 (get-hero-data *hero-size*)
+;;; (SUPERMAN IS (6 FT 3 IN) AND ((230 LBS)))
+
+
+;;; sc: for my own understanding
+(format t "A ~a ~%" "thing") ; result: A thing
+(format t "A ~a ~%" ("thing")) ;  result: errors
+(format t "A ~a ~%" `("thing")) ; result A (thing) ; note: not sure if `("thing") is being treated as a list or just looks like one when printed to terminal
+(format t "A ~a ~%" '("thing")) ; result A (thing)
+
+(format t "A ~a another ~a ~%" "thing" "second") ; result A thing another second
+(format t "A ~a another ~a ~%" ("thing") ("second")) ; result: error. (guess: format might treat remaining args as a list?)
+(format t "A ~a another ~a ~%" (list "thing") (list "second")) ; result: A (thing) another (second)
+(format t "A ~a another ~a ~%" '("thing") '("second")) ; same as above, just different notation
+
+;;; make the same list as above but using list instead of quote '
+(list
+  (list 'Superman)
+  (list 6 'ft 3 'in)
+  (list 230 'lbs))
+
+;;; note that after seeing it like this, with a couple of the inner lists containing
+;;; both integers and symbols (e.g. 'ft 'in 'lbs) that are kinda interpreted as strings just seems odd
+
+;;; what if we did use strings instead?
+
+
+(print(list
+  (list "Superman")
+  (list 6 "ft" 3 "in")
+  (list 230 "lbs")))
+;;; (("Superman") (6 "ft" 3 "in") (230 "lbs")) ;; this feels better but doesn't look as good
+
+;;; sc my own definition of a more complex list
+(defvar thingy '(vehicle (brand toyota) (make camry)))
+(defvar thingy2 (list 'vehicle (list 'brand 'toyota) (list 'make 'camry)))
+(print thingy)
+(print thingy2)
+
+(equal thingy thingy2) ; reminder: (equal) compares the values within the object
+;; True
+
+
+
 
 ;;; Check if every item in a list is a number
 (format t "A number ~a ~%" (mapcar #'numberp '(1 2 3 f g)))
@@ -569,6 +649,8 @@ E.g. in (+ 2 5), + is the car, and 2 and 5 are the cdr
 ;;;	... Function Body ...))
 ;;;	... Body ...)
 
+
+;;; sc: 'flet' presumably let (define a local variable) but for a function, hence 'f'let
 (flet ((double-it (num)
 		(* num 2)))
 		(double-it 10))
