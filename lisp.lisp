@@ -1,4 +1,39 @@
 
+;; SECTION 0: How to look things up, i.e. documentation
+
+;; BEST WAY TO LOOK UP DOCS
+;;
+;; M-x sly-describe-symbol ; MUST have cursor on the thing you want documentation for
+;; NOTE you can just use SPC m h h, or even better, just K in doom emacs!
+;; incredible. So tl;dr to look up documentation, just move the point
+;; over the first character of the function call, and press K in emacs (evil mode)
+;; Reference is made to precisely this method of looking up documentation in
+;; default ~/.config/doom/config.el file! - here's the important bit:
+
+;; | To get information about any of these functions/macros, move the cursor over
+;; | the highlighted symbol at press 'K' (non-evil users must press 'C-c c k').
+;; | This will open documentation for it, including demos of how they are used.
+
+;; EXAMPLE
+;; on line 35 of ~/.config/doom/config.el we see:
+;; (setq doom-theme 'doom-one)
+;; to get documentation for the (setq) function, move the point (cursor) over
+;; the first 's' in setq, and press K on the keyboard. Boom!
+
+
+;; SECOND BEST WAY? I think the above is for elisp, so I can use M-x sly-describe-symbol which seems to do the same thing but for common lisp!
+
+
+;; THIRD BEST WAY TO LOOK UP DOCS
+(documentation 'cons 'function) ; where cons can be any function
+
+
+
+
+
+
+
+
 ;; SECTION 1: Noodling & basics
 
 (print "hi")
@@ -14,13 +49,13 @@
 
 ;;; sc note this:
 
-;;; CL-USER> (defvar aaa 5)
-;;; CL-USER> (defvar aaa 7)
-;;; CL-USER> (print aaa)
+;;; (defvar aaa 5)
+;;; (defvar aaa 7)
+;;; (print aaa)
 ;;; 5
 ;;;
-;;; CL-USER> (setf aaa 9)
-;;; CL-USER> (print aaa)
+;;; (setf aaa 9)
+;;; (print aaa)
 ;;; 9
 
 ;;; in other words, defvar is like orequals, except ||= will define if the object is
@@ -37,7 +72,8 @@
 (defparameter aaa 7)
 (print aaa)
 ;;; 7
-;;; sc: yup, for behaviour more like what I'm used to, use defparamater rather than defvar
+;;; sc: yup, for behaviour more like what I'm used to, use defparamater
+;;; rather than defvar
 
 
 
@@ -56,6 +92,12 @@
 ;;; Defines a global variable and initializes it with a value. The variable can be changed later.
 (defparameter *var* 10)
 
+(documentation 'defparameter 'function)
+
+;;; "Define a parameter that is not normally changed by the program,
+;;; but that may be changed without causing an error. Declare the
+;;; variable special and sets its value to VAL, overwriting any
+;;; previous...[sly-elided string of length 283]"
 
 ;;; Similar to defparameter, but if the variable already exists, it does not reinitialize it.
 (defvar *var* 10)
@@ -71,7 +113,8 @@
   (+ x y))
 
 
-;;; let* similar to let, but allows for variables defined in the form to depend on those defined earlier
+;;; let* similar to let, but allows for variables defined in the form to
+;;; depend on those defined earlier
 (let* ((x 10)
        (y (+ x 10)))
   (+ x y))
@@ -122,7 +165,8 @@
 
 
 ;; my tinkering
-;; note: if you try to define the function before defining its variables, it errors. Wasn't expecting that tbh
+;; note: if you try to define the function before defining its variables,
+;; it errors. Wasn't expecting that tbh
 (defun hello-yoooo (name age)
   (format t "Sup ~a! you're ~a years old! ~%" name age)
 )
@@ -155,13 +199,14 @@
 
 (format t "Number with commas ~:d" 10000)
 
-;; observation: the common lisp REPL doesn't seem to wrap by default (it can print past the right edge of screen)
+;; observation: the common lisp REPL doesn't seem to wrap by
+;; default (it can print past the right edge of screen)
 
 
 
 ;; some arithmatic (from derek)
 
-
+(terpri)
 (format t "(expt 4 2) = ~d ~%" (expt 4 2))
 (format t "(sqrt 81) = ~d ~%" (sqrt 81))
 (format t "(expt 4 2) = ~d ~%" (expt 4 2))
@@ -188,10 +233,33 @@
 
 
 ;; From: https://lisp-lang.org/
+;; note that #' is shorthand for function (i.e. whatever
+;; follows it is a function, in this case the minus sign)
+
 (reduce #'-
         (reverse (list 1 2 3)))
+
+(mapcar #'string-downcase '("Hello, World!"))
+
+;;; these could be rewritten as
+
+(reduce (function -)
+        (reverse (list 1 2 3)))
+(mapcar (function string-downcase) '("Hello, World!"))
+;;;;;;;;;;;;;;;;;;;; Side note: Delete this ^ parenthesis and try to replace it
+;;;;;;;;;;;;;;;;;;;; Emacs does some weirdness, moving cursor to corresponding paren at the end
+;;;;;;;;;;;;;;;;;;;; But only if you have a third (erroneous) paren at the end
+
+(reduce '- (reverse (list 1 2 3)))
+(mapcar 'string-downcase '("Hello, World!"))
+
+;;; tl;dr there's actually three ways to do the same thing
+;;; #' and (function) are the same, but ' does something slightly
+;;; different which might result in the same outcome most the time
+
 ;; ⇒ 0
-;; sc: explanation: first the list is reversed (so it's 3 2 1), then reduce applies the - (subtraction)
+;; sc: explanation of the reduce/reverse example above:
+;; first the list is reversed (so it's 3 2 1), then reduce applies the - (subtraction)
 ;; operator to each of the successive elements e.g. 3-2, then the result - 1, =0
 ;; in other words 'reduce' successively applies the function to the first and second elemnts and moves along
 ;; to go through all elements
@@ -202,6 +270,30 @@
 ;; 10
 
 
+;; a bit more on using #' (alisas for (function)) vs just '
+;; from common lisp discord
+(defun foo () (write-line "Global foo"))
+
+(foo)
+
+(funcall #'foo) ; => Global foo
+(funcall 'foo) ; => Global foo
+
+(flet ((foo () (write-line "Local foo")))
+  (funcall #'foo) ; => Local foo
+  (funcall 'foo)) ; => Global foo
+
+
+;; Use #' to get the function object from the relevant lexical scope.
+;; This means that if there's a local binding (e.g., within a `flet`
+;; or `labels` block), it will take precedence over a global definition.
+
+;; sc: (my 2c) interesting meta-learning googling (static|dynamic|lexical) scoping
+;; is to research categories (labels), but understanding the underlying concept
+;; of 'scope resolution order' (a term not found so commonly on literature)
+;; seems a much more fruitful to me, since you stop trying to understand each label
+;; and realise each language can do whatever the hell it wants (it just happens)
+;; that most languages fit into one of a few different categories above
 
 
 ;; From: https://lisp-lang.org/
@@ -216,7 +308,7 @@
 
 
 
-;; how to look up documentation for a lisp function
+;;; how to look up documentation for a lisp function
 ;;; my tldr:
 ;;; use (describe) since it has one less argument than (documentation)
 ;;; e.g.
@@ -267,12 +359,6 @@
          (fib (- n 2)))))
 
 
-(defun fib (n)
-  "Return the nth Fibonacci number."
-  (if (< n 2)
-      n
-      (+ (fib (- n 1))
-         (fib (- n 2)))))
 
 (fib 20)
 ;;  6765
@@ -403,11 +489,14 @@
   (format t "nums: ~a!~%" (list a b c d)))
 
 (mynums 1 2 3 4)
+;; nums: (1 2 3 4)!
 
 ;; automatically gives the optional argument a value of NIL
 (mynums 1 2 3)
+;; nums: (1 2 3 Nil)!
 
-
+(mynums 1 2)
+;; nums: (1 2 Nil Nil)!
 
 ;;; check if something is a list
 
@@ -417,6 +506,8 @@
 ;;; NIL (aka false)
 (listp thing2)
 ;;; T
+
+(documentation 'listp 'function)
 
 
 ;;; Loops that print
@@ -446,15 +537,71 @@
 (dolist (item '(a b c d))
   (print item))
 
+(dolist (thing a) ; a is the list defined a few lines up ^^
+  (print thing))
+
+
+
+
+;;; sc quick primer on (dolist) and (mapcar)
+
+(documentation 'dolist 'function) ; doesn't work for some reason
+;;; Since it doesn't work, I looked documentation up online via a google
+;;; search for dolist site:https://www.lispworks.com/
+;;; (note that lispworks.com is called 'hyperspec')
+;;; https://www.lispworks.com/documentation/lw60/CLHS/Body/m_dolist.htm
+
+;; these also don't work, which I find surprising
+(documentation 'dolist 'macro)
+(documentation 'dolist 'symbol)
+
+
+
+(dolist (element '(1 2 3 4))
+  (print element))
+
+(dolist (el '(1 2 3 4))
+  (print el))
+;;; got it. the first argument is the same as a block parameter
+;;; in ruby and the second argument is the list to enumerate over
+;;; 'el' in the above case is called a 'temporary holding cell'. See: https://www.youtube.com/watch?v=ymSq4wHrqyU&t=35m20s
+
+;; So basically in lisp
+
+;; (dolist (el '(1 2 3))
+;;   (format t "~a~%" el))
+
+;; is the same as this in ruby:
+
+;; [1, 2, 3].each do |el|
+;;   puts el
+;; end
+
+;; sc: i wonder if we can use an anonymous function with dolist?
+;; ans, of course, just put it in directly, no need for anything fancy
+
+(dolist (arg '(1 2 455))
+  (print arg))
+;; was literally doing this above :'( hehe
 
 
 
 
 
+;;; Quick primer on mapcar
+;;; mapcar takes a function and applies it to each list element
+(defun plus_two (x)
+  (+ x 2))
+(plus_two 3)
+(mapcar 'plus_two '(1 2 3)) ; sc something can confuse here
+                            ; note '(1 2 3) only where you're defining
+                            ; the list in-place, if using an-already
+                            ; defined list, no ' is necessary on the list
+                            ; argument (still used on the function tho)
 
-
-
-
+(defparameter newlist (list 10 20 30))
+(listp newlist)
+(mapcar 'plus_two newlist)
 
 ;;; Macros!
 ;;; From: https://www.quora.com/What-is-symbolic-programming/answer/Vladislav-Zorov
@@ -482,14 +629,42 @@
 ;;;   (+ X Y))
 ;;; T
 
+;;; what is 'arg'
+
+(documentation 'arg 'function)
+
+;;; "Return the N'th argument's value if possible. Argument zero is the first
+;;;  argument in a frame's default printed representation. Count keyword/value
+;;;  pairs as separate arguments."
+
+(documentation 'cons 'function)
+;;; "Return a list with SE1 as the car and SE2 as the cdr"
+;;; eg.
+;;; (cons 'a 'b)
+;;; (A . B) ; displayed in dot notation
 
 
+;;; exploring cons
+;;; quite a profound example. here we end up calling eval not
+;;; on "2 + 2" but on
+;;; a list (+ 2 2)
+(defparameter operation '+)
+(defparameter arguments (list 2 3))
+(defparameter func-call (cons operation arguments))
+(print func-call) ; (+ 2 2)
+(type-of func-call) ; type-of gets the type of anything sc - THIS could be handy - get any object's type!
+(eval func-call)
+;; sc: note that chatgpt says there's something wrong with the way I define
+;; the arguments variable (it thinks it shouldn't be a list for some reason)
+;; so just be careful that the above example might be wrong even though it
+;; appears to work
 
-
-
-
+;; or another way to look at it
+(eval (cons '+ '(2 3)))
+;; 5
 
 ;;; another macro example: https://lisp-lang.org/learn/macros
+
 
 
 
@@ -563,3 +738,57 @@
 ;;; but only after a and b are evaluated as variables adn their values used in the (list)
 ;;; function call to create a new list.
 ;;;
+
+
+
+
+;;; paperclip math
+
+(defparameter start 13107200)
+
+;;; a function to double a number (x), n times
+
+(defun double_me (x n)
+  (* x (expt 2 n)))
+
+(double_me 3200 2)
+
+(mapcar #'double_me (list (list 3200 1) (list 3200 2)))
+
+(mapcar 'double_me (list (list 3200 1) (list 3200 2)))
+
+
+(defun double_me (x n)
+  (* x (expt 2 n)))
+
+(mapcar (lambda (x n) (double_me x n)) '(1 2 3 4 5) '(0 1 2 3 4))
+
+(let ((n 3))
+  (mapcar (lambda (x) (double_me x n)) '(1 2 3 4 5)))
+
+
+
+
+(loop for i from 1 to 5
+      do (print i))
+
+(print start)
+(loop for i from 1 to 5 do
+      (print i)
+      (print (expt start 2))
+    ;;  (print (* start (exp 2 i)))
+)
+
+
+(loop
+	(format t "~d ~%" x)
+	(setq x (+ x 1))
+	(when (> x 10) (return x))
+)
+
+
+(pp-eval-last-sexp)
+
+
+(* 1500 1.75)
+;; 2625
