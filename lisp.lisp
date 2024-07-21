@@ -279,7 +279,7 @@
 (funcall #'foo) ; => Global foo
 (funcall 'foo) ; => Global foo
 
-(flet ((foo () (write-line "Local foo")))
+(flet ((foo () (write-line "Local foo"))) ;; sc: portmanteau 'function let' 
   (funcall #'foo) ; => Local foo
   (funcall 'foo)) ; => Global foo
 
@@ -583,8 +583,9 @@
 (dolist (arg '(1 2 455))
   (print arg))
 ;; was literally doing this above :'( hehe
-
-
+;; update: I think it *is* necessary with mapcar e.g. (from derek)
+;; e.g.
+(mapcar (lambda (x) (+ x 2)) '(1 2 3))
 
 
 

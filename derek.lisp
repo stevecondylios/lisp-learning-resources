@@ -1,10 +1,11 @@
 
-;;; note: this doc grew of a life of its own. It's based on derek's tutorial but now
-;;; has a lot of my notes inbued
+;;; note: this doc grew of a life of its own. It's based on derek's tutorial
+;;; but now has a lot of my notes imbued
 
 
 ;;; sc random quick notes
-;; remember that in lisp, Nil is false, and anything other than NIL and F is true
+;; remember that in lisp, Nil is false, and anything other than
+;; NIL and F is true
 ;; e.g.
 (eql 2 2) ; T
 (eql 2 3) ; Nil (false) <---- gives nil which means false
@@ -676,6 +677,9 @@ E.g. in (+ 2 5), + is the car, and 2 and 5 are the cdr
 (defun squares (num)
 	(values (expt num 2) (expt num 3)))
 
+(squares 2)
+;; => 4, 8
+
 ;;; Get multiple values from a function
 (multiple-value-bind (a b) (squares 2)
 	(format t "2^2 = ~d  2^3 = ~d~%" a b)
@@ -694,7 +698,7 @@ E.g. in (+ 2 5), + is the car, and 2 and 5 are the cdr
 	(dotimes (x max-num)
 
 		;; funcall is used when you know the number of arguments
-		(format t "~d : ~d~%" x (funcall mult-func x))
+		(format t "~d : ~d~%" x (funcall mult-func x)) ;; wow - this is pretty bad ass (although I'm not sure what I'd use it for)
 ))
 
 (multiples #'times-3 10)
@@ -707,6 +711,7 @@ E.g. in (+ 2 5), + is the car, and 2 and 5 are the cdr
 
 ;;; Multiply every item in a list
 (mapcar (lambda (x) (* x 2)) '(1 2 3 4 5))
+
 
 ;;; ---------- MACROS ----------
 ;;; A function runs when it is called to execute, while a macro is compiled
@@ -741,11 +746,36 @@ E.g. in (+ 2 5), + is the car, and 2 and 5 are the cdr
 	(terpri)
 )
 
+;; sc challenge. The macro above doesn't generalise that well
+;; (since check out the if not option - it will always say
+;; "Can't drive") - what if we could generalise it by parametising
+;; that message?
+
+(defmacro ifit (condition &rest body)
+	`(if ,condition (progn ,@body) (format t "Can't Drive ~%") ))
+
+(defmacro ifit (condition not_message &rest body)
+  `(if ,condition (progn ,@body) (format t not_message)))
+
+(defparameter message "underage")
+
+(ifit (< *age* 16) message
+	(print "You are over 16")
+	(print "Time to Drive")
+	(terpri)
+)
+;; sc DID NOT successfully get this ^^ working
+;; can try again when I know more
+
+
+
 ;;; let can also get confusing with its parentheses
 
 (defun add (num1 num2)
-	(let ((sum (+ num1 num2)))
+	(let ((sum (+ num1 num2))) ; sc: I'm not even sure why let two sets of ((  )) are required inside let here.
 		(format t "~a + ~a = ~a ~%" num1 num2 sum)))
+
+(add 2 3)
 
 ;;; Define a macro to clean up let
 
