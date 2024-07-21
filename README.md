@@ -21,6 +21,8 @@ Note: lisp code examples in this file and in [lisp.lisp](lisp.lisp) (since I can
 - Fireship video [here](https://www.youtube.com/watch?v=INUHCQST7CU)
 - Brilliant, long single-pager here: https://news.ycombinator.com/item?id=40435771
 
+- Racket online book: https://docs.racket-lang.org/guide/index.html
+
 
 ### Great tutorials and projects
 
