@@ -6,7 +6,7 @@ Note: lisp code examples in this file and in [lisp.lisp](lisp.lisp) (since I can
 
 ### Random resources
 
-- Paul Graham's *ANSI Common Lisp** [pdf](https://7chan.org/pr/src/ANSI_Common_Lisp_-_Paul_Graham.pdf), [first chapter](https://sep.turbifycdn.com/ty/cdn/paulgraham/acl1.txt?t=1688221954&), [second chapter](https://sep.turbifycdn.com/ty/cdn/paulgraham/acl2.txt)
+- Paul Graham's *ANSI Common Lisp* [pdf](https://7chan.org/pr/src/ANSI_Common_Lisp_-_Paul_Graham.pdf), [first chapter](https://sep.turbifycdn.com/ty/cdn/paulgraham/acl1.txt?t=1688221954&), [second chapter](https://sep.turbifycdn.com/ty/cdn/paulgraham/acl2.txt)
 
 - Excellent answer [here](https://www.quora.com/What-is-symbolic-programming/answer/Vladislav-Zorov) on what a 'symbolic programming' language is, and, inadvertantly, a great example of lisp macros. 
 - Lisp is [lex's](https://www.youtube.com/watch?v=cMMiaCtOzV0) favourite language
