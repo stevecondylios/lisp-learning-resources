@@ -10,7 +10,8 @@ Note: lisp code examples in this file and in [lisp.lisp](lisp.lisp) (since I can
 
 - Excellent answer [here](https://www.quora.com/What-is-symbolic-programming/answer/Vladislav-Zorov) on what a 'symbolic programming' language is, and, inadvertantly, a great example of lisp macros. 
 - Lisp is [lex's](https://www.youtube.com/watch?v=cMMiaCtOzV0) favourite language
-- This video recommends starting with [scheme](https://www.youtube.com/watch?v=GWdf1flcLoM&t=4m50s) because it's so small it can be learned in ~ 1 hour. 
+- This video recommends starting with [scheme](https://www.youtube.com/watch?v=GWdf1flcLoM&t=4m50s) because it's so small it can be learned in ~ 1 hour.
+  - Note that scheme is the language that [Structure and Interpretation of Computer Programs](https://web.mit.edu/6.001/6.037/sicp.pdf) is written in (famous foundational CS text used as course text for MIT's Intro to CS course).
   - It also says some learn scheme by simply reading the [specification](https://standards.scheme.org/).
     - According to [here](https://stackoverflow.com/questions/6523396/scheme-core-language-specification/6523520#comment7680042_6523520) scheme 5 is famously small (50 pages), scheme 6 is a much larger language. (I presume scheme 7 is probably larger still). 
 - 5 minute tutorial on how to run webserver (using hunchentoot), how to render html and pass a URL parameter ([here](https://www.youtube.com/watch?v=A4PzSsOD-CQ). 
