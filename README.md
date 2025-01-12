@@ -6,6 +6,12 @@ Note: lisp code examples in this file and in [lisp.lisp](lisp.lisp) (since I can
 
 ### Random resources
 
+
+- Lisp is great for [stand alone executables](https://blog.djhaskin.com/blog/why-i-chose-common-lisp/)
+- Note that common lisp works great in [vim](https://blog.djhaskin.com/blog/developing-common-lisp-using-vim-with-tmux-or-conemu/)
+  - va( will get everything in the current block (including multi line) - a bunch of other common motions/keyboard shortcuts etc in the article
+  - Author uses vim-slime to send lisp to interpreter
+
 - Paul Graham's *ANSI Common Lisp* [pdf](https://7chan.org/pr/src/ANSI_Common_Lisp_-_Paul_Graham.pdf), [first chapter](https://sep.turbifycdn.com/ty/cdn/paulgraham/acl1.txt?t=1688221954&), [second chapter](https://sep.turbifycdn.com/ty/cdn/paulgraham/acl2.txt)
 
 - Excellent answer [here](https://www.quora.com/What-is-symbolic-programming/answer/Vladislav-Zorov) on what a 'symbolic programming' language is, and, inadvertantly, a great example of lisp macros. 
