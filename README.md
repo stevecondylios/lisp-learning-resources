@@ -20,6 +20,7 @@ Note: lisp code examples in this file and in [lisp.lisp](lisp.lisp) (since I can
   - Note that scheme is the language that [Structure and Interpretation of Computer Programs](https://web.mit.edu/6.001/6.037/sicp.pdf) is written in (famous foundational CS text used as course text for MIT's Intro to CS course).
   - It also says some learn scheme by simply reading the [specification](https://standards.scheme.org/).
     - According to [here](https://stackoverflow.com/questions/6523396/scheme-core-language-specification/6523520#comment7680042_6523520) scheme 5 is famously small (50 pages), scheme 6 is a much larger language. (I presume scheme 7 is probably larger still). 
+  - Also, a berkely book 'Simply Scheme' with full pdf here [here](https://news.ycombinator.com/item?id=46902739)
 - 5 minute tutorial on how to run webserver (using hunchentoot), how to render html and pass a URL parameter ([here](https://www.youtube.com/watch?v=A4PzSsOD-CQ). 
 
 
